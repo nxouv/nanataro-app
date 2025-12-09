@@ -14,4 +14,4 @@ url: "https://chromewebstore.google.com/detail/saved-it-download-x-image/aeeecak
 
 ブラウザには標準で読み上げる機能がありました
 
-そこで無料の読み上げといえばVOICEVOXやCOEIROINKだと思ったので、それで試みたのがきっかけです
+ただもっといい声で聴きたかったので、そうなるとVOICEVOXやCOEIROINKだと思って、それで試みたという感じです
