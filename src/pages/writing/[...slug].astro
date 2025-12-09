@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const categoryLabel = getWritingCategoryLabel(post.data.category);
+const categoryLabel = post.data.category ? getWritingCategoryLabel(post.data.category) : '';
 ---
 
 <BaseLayout title={post.data.title}>

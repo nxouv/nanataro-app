@@ -5,7 +5,6 @@ import ProjectCard from "../components/ProjectCard.astro";
 import WritingListItem from "../components/WritingListItem.astro";
 import Footer from "../components/Footer.astro";
 import { getCollection } from "astro:content";
-import { getCategoryLabel } from "../utils/utils.js";
 import { getCategoryLabel, getYear } from "../utils/utils.js";
 
 // プロジェクト取得（日付で降順ソート）
@@ -15,14 +14,14 @@ const sortedProjects = projects.sort((a, b) => {
 });
 
 // 年ごとにグループ化
-const projectsByYear = sortedProjects.reduce((acc, project) => {
+const projectsByYear: Record<string, typeof sortedProjects> = {};
+sortedProjects.forEach((project) => {
 	const year = getYear(project.data.date);
-	if (!acc[year]) {
-		acc[year] = [];
+	if (!projectsByYear[year]) {
+		projectsByYear[year] = [];
 	}
-	acc[year].push(project);
-	return acc;
-}, {});
+	projectsByYear[year].push(project);
+});
 
 const years = Object.keys(projectsByYear).sort((a, b) => b.localeCompare(a));
 
@@ -323,10 +322,10 @@ const sortedWritings = writings
 
 <script>
 	function initFilter() {
-		const filterItems = document.querySelectorAll(".filter-item");
-		const timelineItems = document.querySelectorAll(".timeline-item");
+	const filterItems = document.querySelectorAll<HTMLElement>(".filter-item");
+	const timelineItems = document.querySelectorAll<HTMLElement>(".timeline-item");
 
-		filterItems.forEach((item) => {
+	filterItems.forEach((item) => {
 			item.addEventListener("click", () => {
 				filterItems.forEach((i) => i.classList.remove("active"));
 				item.classList.add("active");
