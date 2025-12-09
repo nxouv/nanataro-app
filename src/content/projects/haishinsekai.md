@@ -1,6 +1,6 @@
 ---
 title: "はいしんせかい"
-description: "配信のやり方をわかりやすく解説するサイト"
+description: "配信のやり方をわかりやすく解説するWebメディア"
 category: "website"
 date: "2023-10-21"
 url: "https://haishinsekai.jp/"
