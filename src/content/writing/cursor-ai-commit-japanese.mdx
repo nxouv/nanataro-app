@@ -6,7 +6,7 @@ category: "thought"
 
 Cursorのコミットメッセージ自動生成機能の出力を日本語にする方法を説明します。
 
-## "User Rules"はAIコミットメッセージには反映されない
+## "User Rules"は、AIコミットメッセージには反映されない
 
 Settings → Rules and Commandsに"User Rules"がありますが、ここにAIコミットメッセージを日本語にするプロンプトを追加しても機能しませんでした。
 
@@ -14,7 +14,7 @@ Cursor Forumでも要望が出ており、開発チームも認識している�
 
 [How to change "generate commit message" language? - Discussions - Cursor - Community Forum](https://forum.cursor.com/t/how-to-change-generate-commit-message-language/39670)
 
-## 方法1: .cursorrulesファイルを使う
+## 方法① .cursorrulesファイルを使う
 
 プロジェクトのルートディレクトリに .cursorrules ファイルを作成し、のルールを記述します。
 
@@ -33,7 +33,7 @@ Generate commit messages in Japanese.
 
 [Rules | Cursor Docs](https://cursor.com/ja/docs/context/rules)
 
-## 方法2: Gitリポジトリの履歴パターンを利用
+## 方法② Gitリポジトリの履歴パターンを利用
 
 1. 最初の数回のコミットを手動で希望の言語で書く
 2. Cursorがそのパターンを学習
