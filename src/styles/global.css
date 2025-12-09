@@ -181,6 +181,16 @@ button {
 }
 
 @media (max-width: 640px) {
+
+  :root {
+    --text-base: 0.875rem; /* 14px */
+    --text-lg: 0.95rem; /* 15.2px */
+    --text-xl: 1rem; /* 16px */
+    --text-2xl: 1.125rem; /* 18px */
+    --text-3xl: 1.375rem; /* 22px */
+    --text-4xl: 1.5rem; /* 24px */
+  }
+
   .container {
     padding: var(--space-20) var(--container-padding-mobile) var(--space-24);
   }
