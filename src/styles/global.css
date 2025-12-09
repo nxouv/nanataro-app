@@ -1,0 +1,354 @@
+/* ================================
+   CSS Variables
+   ================================ */
+:root {
+  /* Colors - Background */
+  --color-bg: #fafafa;
+  --color-bg-card: #ffffff;
+  --color-bg-code: #1e1e1e;
+  --color-bg-code-inline: #efefef;
+
+  /* Colors - Text */
+  --color-text: #333333;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #555555;
+  --color-text-muted: #888888;
+  --color-text-subtle: #bbbbbb;
+  --color-text-faint: #dddddd;
+
+  /* Colors - UI */
+  --color-border: #f0f0f0;
+  --color-border-strong: #e5e5e5;
+  --color-link: #3b82f6;
+  --color-selection: #ffe4ec;
+  --color-gradient-start: #ffe4ec;
+  --color-gradient-end: #e0f2fe;
+
+  /* Colors - Category */
+  --color-chrome-extension: #f59e0b;
+  --color-web-service: #3b82f6;
+  --color-desktop-app: #10b981;
+  --color-mobile-app: #ec4899;
+  --color-website: #8b5cf6;
+  --color-writing-product: #ef4444;
+  --color-writing-thought: #14b8a6;
+
+  /* Typography - Font Family */
+  --font-sans: "Source Sans 3", "Noto Sans JP", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Typography - Font Size */
+  --text-xs: 0.75rem;
+  /* 12px */
+  --text-sm: 0.8125rem;
+  /* 13px */
+  --text-base: 0.95rem;
+  /* 15.2px */
+  --text-lg: 1rem;
+  /* 16px */
+  --text-xl: 1.125rem;
+  /* 18px */
+  --text-2xl: 1.25rem;
+  /* 20px */
+  --text-3xl: 1.5rem;
+  /* 24px */
+  --text-4xl: 1.75rem;
+  /* 28px */
+  --text-5xl: 5rem;
+  /* 80px - for 404 */
+
+  /* Typography - Line Height */
+  --leading-tight: 1.4;
+  --leading-normal: 1.75;
+  --leading-relaxed: 1.9;
+
+  /* Typography - Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  /* 4px */
+  --space-2: 0.5rem;
+  /* 8px */
+  --space-3: 0.75rem;
+  /* 12px */
+  --space-4: 1rem;
+  /* 16px */
+  --space-5: 1.25rem;
+  /* 20px */
+  --space-6: 1.5rem;
+  /* 24px */
+  --space-7: 1.75rem;
+  /* 28px */
+  --space-8: 2rem;
+  /* 32px */
+  --space-10: 2.5rem;
+  /* 40px */
+  --space-12: 3rem;
+  /* 48px */
+  --space-14: 3.5rem;
+  /* 56px */
+  --space-16: 4rem;
+  /* 64px */
+  --space-20: 5rem;
+  /* 80px */
+  --space-24: 6rem;
+  /* 96px */
+  --space-30: 7.5rem;
+  /* 120px */
+  --space-35: 8.75rem;
+  /* 140px */
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.045);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+
+  /* Layout */
+  --container-max-width: 600px;
+  --container-padding: var(--space-6);
+  --container-padding-mobile: var(--space-5);
+}
+
+/* ================================
+   Reset
+   ================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================================
+   Base Styles
+   ================================ */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: var(--color-selection);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ================================
+   Layout
+   ================================ */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-30) var(--container-padding) var(--space-35);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-20) var(--container-padding-mobile) var(--space-24);
+  }
+}
+
+/* ================================
+   Article Content (Markdown)
+   ================================ */
+.article-content {
+  color: var(--color-text);
+}
+
+.article-content p {
+  margin-bottom: 1.75em;
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+.article-content h2 {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 3em;
+  margin-bottom: 1em;
+}
+
+.article-content h3 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+}
+
+.article-content a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: opacity var(--transition-base);
+}
+
+.article-content a:hover {
+  opacity: 0.7;
+}
+
+.article-content ul,
+.article-content ol {
+  margin-bottom: 1.75em;
+  padding-left: 1.5em;
+  font-size: var(--text-base);
+}
+
+.article-content li {
+  margin-bottom: 0.5em;
+  line-height: var(--leading-relaxed);
+}
+
+.article-content blockquote {
+  border-left: 3px solid var(--color-border-strong);
+  padding-left: var(--space-5);
+  margin: 2em 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.article-content img {
+  border-radius: var(--radius-md);
+  margin: 2em 0;
+}
+
+/* Code - Inline */
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: var(--color-bg-code-inline);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+/* Code - Block */
+.article-content pre {
+  background-color: var(--color-bg-code);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-6);
+  margin: 2em 0;
+  overflow-x: auto;
+}
+
+.article-content pre code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: #d4d4d4;
+}
+
+/* ================================
+   Twitter Embed (astro-embed)
+   ================================ */
+astro-embed-tweet {
+  display: block;
+  margin: 2em 0;
+}
+
+astro-embed-tweet .twitter-tweet {
+  margin: 0;
+  padding: var(--space-2) var(--space-5) var(--space-5) var(--space-6);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid #000;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-style: normal;
+  position: relative;
+}
+
+astro-embed-tweet .twitter-tweet::before {
+  content: "𝕏";
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  font-weight: 500;
+  margin-bottom: var(--space-1);
+  text-align: right;
+}
+
+astro-embed-tweet .twitter-tweet p {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  font-style: normal;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+astro-embed-tweet .twitter-tweet p:last-of-type {
+  margin-bottom: 0;
+}
+
+astro-embed-tweet .twitter-tweet a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+astro-embed-tweet .twitter-tweet a:hover {
+  opacity: 0.7;
+}
+
+/* ================================
+   Text Selection
+   ================================ */
+::selection {
+  background-color: #E0F2FE;
+  color: #1a1a1a;
+}
+
+.footer-banner {
+  margin-top: var(--space-10);
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+}
+
+.footer-banner .main-banner {
+  display: inline-block;
+}
+
+.footer-banner .chrome-banner {
+  position: relative;
+  top: -10.5px;
+}

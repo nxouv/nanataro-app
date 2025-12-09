@@ -1,0 +1,109 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BackLink from "../../components/BackLink.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { formatDate, getWritingCategoryLabel } from "../../utils/utils.js";
+
+export async function getStaticPaths() {
+  const writings = await getCollection("writing");
+  return writings.map((post) => {
+    const slug = post.slug.split("/").pop();
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const categoryLabel = getWritingCategoryLabel(post.data.category);
+---
+
+<BaseLayout title={post.data.title}>
+  <main class="container">
+    <BackLink href="/writing" label="Writing" />
+
+    <article>
+      <header class="article-header">
+        <div class="article-meta">
+          <time class="article-date">{formatDate(post.data.date)}</time>
+          {
+            post.data.category && (
+              <>
+                <span class="article-meta-separator">·</span>
+                <span
+                  class="article-category"
+                  data-category={post.data.category}
+                >
+                  {categoryLabel}
+                </span>
+              </>
+            )
+          }
+        </div>
+        <h1 class="article-title">{post.data.title}</h1>
+      </header>
+
+      <div class="article-content">
+        <Content />
+      </div>
+    </article>
+
+    <Footer />
+  </main>
+</BaseLayout>
+
+<style>
+  .article-header {
+    margin-bottom: var(--space-14);
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .article-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .article-meta-separator {
+    color: var(--color-text-subtle);
+  }
+
+  .article-category {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .article-category[data-category="product"] {
+    color: var(--color-writing-product);
+  }
+
+  .article-category[data-category="thought"] {
+    color: var(--color-writing-thought);
+  }
+
+  .article-title {
+    font-size: var(--text-4xl);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  @media (max-width: 640px) {
+    .article-header {
+      margin-bottom: var(--space-12);
+    }
+
+    .article-title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

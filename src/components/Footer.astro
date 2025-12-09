@@ -1,0 +1,71 @@
+---
+
+---
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="https://x.com/nxouv" target="_blank" rel="noopener noreferrer">X</a
+    >
+    <a href="https://github.com/nxouv" target="_blank" rel="noopener noreferrer"
+      >GitHub</a
+    >
+    <a href="mailto:nanataro.nx@gmail.com">Email</a>
+    <a href="/privacy">Privacy</a>
+  </div>
+  <p class="footer-copyright">since 2025</p>
+  <div class="footer-banner">
+    <a href="/" class="main-banner">
+      <img src="/banner.png" alt="なな太郎" width="120" height="56" />
+    </a>
+    <img
+      src="/chrome-banner.png"
+      alt="Chrome"
+      class="chrome-banner"
+      width="81"
+      height="30"
+    />
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-20);
+    padding-top: var(--space-10);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--space-5);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-links a {
+    color: var(--color-text-subtle);
+    transition: color var(--transition-base);
+  }
+
+  .footer-links a:hover {
+    color: var(--color-text-secondary);
+  }
+
+  .footer-copyright {
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+  }
+
+  .footer-banner {
+    margin-top: var(--space-10);
+  }
+
+  .footer-banner img {
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .footer-links {
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+  }
+</style>

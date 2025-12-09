@@ -1,0 +1,166 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BackLink from "../../components/BackLink.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { formatDate, getWritingCategoryLabel } from "../../utils/utils.js";
+
+const writings = await getCollection("writing", ({ data }) => !data.draft);
+const sortedWritings = writings.sort((a, b) => {
+  return b.data.date.localeCompare(a.data.date);
+});
+
+const categories = [
+  { value: "all", label: "すべて" },
+  { value: "product", label: "作ったもの" },
+  { value: "thought", label: "思ったこと" },
+];
+---
+
+<BaseLayout title="Writing" description="考えたことや学んだことを書いています">
+  <main class="container">
+    <BackLink href="/" label="ホーム" />
+    <PageHeader
+      title="Writing"
+      subtitle="考えたことや学んだことを書いています"
+    />
+
+    <div class="filter">
+      {
+        categories.map((cat) => (
+          <button
+            class={`filter-item ${cat.value === "all" ? "active" : ""}`}
+            data-category={cat.value}
+          >
+            {cat.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="writing-list">
+      {
+        sortedWritings.map((post) => (
+          <article
+            class="writing-list-item"
+            data-category={post.data.category || "thought"}
+          >
+            <a href={`/writing/${post.slug.split("/").pop()}`}>
+              <h2 class="writing-list-item-title">{post.data.title}</h2>
+              <time class="writing-list-item-date">
+                {formatDate(post.data.date)}
+              </time>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <Footer />
+  </main>
+</BaseLayout>
+
+<style>
+  .filter {
+    margin-bottom: var(--space-10);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--text-base);
+  }
+
+  .filter-item {
+    padding: var(--space-1) 0;
+    transition: opacity var(--transition-base);
+    background: none;
+    border: none;
+    font-size: inherit;
+    opacity: 0.45;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+  }
+
+  .filter-item:hover {
+    opacity: 0.75;
+  }
+
+  .filter-item.active {
+    opacity: 1;
+  }
+
+  .filter-item[data-category="product"] {
+    color: var(--color-writing-product);
+  }
+
+  .filter-item[data-category="thought"] {
+    color: var(--color-writing-thought);
+  }
+
+  .writing-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .writing-list-item {
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .writing-list-item:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .writing-list-item a {
+    display: block;
+    transition: opacity var(--transition-base);
+  }
+
+  .writing-list-item a:hover {
+    opacity: 0.6;
+  }
+
+  .writing-list-item-title {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-tight);
+  }
+
+  .writing-list-item-date {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .writing-list-item.hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const buttons = document.querySelectorAll(".filter-item");
+    const items = document.querySelectorAll(".writing-list-item");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const category = button.getAttribute("data-category");
+
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        items.forEach((item) => {
+          if (
+            category === "all" ||
+            item.getAttribute("data-category") === category
+          ) {
+            item.classList.remove("hidden");
+          } else {
+            item.classList.add("hidden");
+          }
+        });
+      });
+    });
+  });
+</script>

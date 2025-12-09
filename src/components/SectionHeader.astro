@@ -1,0 +1,51 @@
+---
+const { title, linkHref, linkText } = Astro.props;
+---
+
+<div class="section-header">
+  <h2 class="section-header-title">{title}</h2>
+  {linkHref && linkText && (
+    <a href={linkHref} class="section-header-link">
+      <span class="section-header-link-text">{linkText.replace(' →', '')}</span>
+      <span class="section-header-link-arrow">→</span>
+    </a>
+  )}
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-header-title {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .section-header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    transition: color var(--transition-base);
+  }
+
+  .section-header-link:hover {
+    color: var(--color-text-secondary);
+  }
+
+  .section-header-link-arrow {
+    transition: transform var(--transition-base);
+  }
+
+  .section-header-link:hover .section-header-link-arrow {
+    transform: translateX(3px);
+  }
+</style>

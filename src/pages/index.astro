@@ -1,0 +1,355 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import WritingListItem from "../components/WritingListItem.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { getCategoryLabel } from "../utils/utils.js";
+import { getCategoryLabel, getYear } from "../utils/utils.js";
+
+// プロジェクト取得（日付で降順ソート）
+const projects = await getCollection("projects");
+const sortedProjects = projects.sort((a, b) => {
+	return b.data.date.localeCompare(a.data.date);
+});
+
+// 年ごとにグループ化
+const projectsByYear = sortedProjects.reduce((acc, project) => {
+	const year = getYear(project.data.date);
+	if (!acc[year]) {
+		acc[year] = [];
+	}
+	acc[year].push(project);
+	return acc;
+}, {});
+
+const years = Object.keys(projectsByYear).sort((a, b) => b.localeCompare(a));
+
+// 存在するカテゴリのみ抽出
+const existingCategories = [...new Set(projects.map((p) => p.data.category))];
+
+// Writing取得（最新3件）
+const writings = await getCollection("writing", ({ data }) => !data.draft);
+const sortedWritings = writings
+	.sort((a, b) => b.data.date.localeCompare(a.data.date))
+	.slice(0, 3);
+---
+
+<BaseLayout>
+	<main class="container">
+		<!-- Profile -->
+		<header class="profile">
+			<div class="profile-header">
+				<div class="profile-icon">
+					<img src="/icon.png" alt="" />
+				</div>
+				<h1 class="profile-name">なな太郎</h1>
+			</div>
+			<p class="profile-bio">
+				自然言語で書いています。<br />
+				最近覚えた言葉は、npm run devです。
+			</p>
+			<div class="profile-links">
+				<a
+					href="https://x.com/nxouv"
+					target="_blank"
+					rel="noopener noreferrer">X(@nxouv)</a
+				>
+				<a
+					href="https://github.com/nxouv"
+					target="_blank"
+					rel="noopener noreferrer">GitHub</a
+				>
+			</div>
+		</header>
+
+		<!-- Projects -->
+		<section class="section">
+			<SectionHeader title="Projects" />
+
+			<div class="filter">
+				<button class="filter-item active" data-category="all"
+					>すべて</button
+				>
+				{
+					existingCategories.map((cat) => (
+						<button class="filter-item" data-category={cat}>
+							{getCategoryLabel(cat)}
+						</button>
+					))
+				}
+			</div>
+
+			<div class="timeline">
+				{
+					years.map((year) => (
+						<div class="year-group">
+							<div class="year-label">{year}</div>
+							{projectsByYear[year].map((project, index) => (
+								<ProjectCard
+									title={project.data.title}
+									description={project.data.description}
+									category={project.data.category}
+									date={project.data.date}
+									slug={project.slug}
+									isFirst={index === 0}
+								/>
+							))}
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- Writing -->
+		{
+			sortedWritings.length > 0 && (
+				<section class="section">
+					<SectionHeader
+						title="Writing"
+						linkHref="/writing"
+						linkText="すべて →"
+					/>
+					<div class="writing-list">
+						{sortedWritings.map((post) => (
+							<WritingListItem
+								title={post.data.title}
+								date={post.data.date}
+								slug={post.slug.split("/").pop()}
+							/>
+						))}
+					</div>
+				</section>
+			)
+		}
+
+		<!-- About Link -->
+		<div class="about-link-section">
+			<a href="/about" class="about-link"
+				>/about<span>·</span>もう少し詳しい自己紹介</a
+			>
+		</div>
+
+		<Footer />
+	</main>
+</BaseLayout>
+
+<style>
+	/* Profile */
+	.profile {
+		margin-bottom: var(--space-30);
+	}
+
+	.profile-header {
+		display: flex;
+		align-items: center;
+		gap: var(--space-5);
+		margin-bottom: var(--space-7);
+	}
+
+	.profile-icon {
+		width: 52px;
+		height: 52px;
+		border-radius: var(--radius-full);
+		background: linear-gradient(
+			135deg,
+			var(--color-gradient-start) 0%,
+			var(--color-gradient-end) 100%
+		);
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+
+	.profile-icon img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.profile-name {
+		font-size: var(--text-4xl);
+		font-weight: 500;
+		color: var(--color-text-primary);
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.profile-bio {
+		font-size: var(--text-base);
+		color: var(--color-text-secondary);
+		margin-bottom: var(--space-6);
+		line-height: var(--leading-relaxed);
+	}
+
+	.profile-links {
+		display: flex;
+		gap: var(--space-5);
+		font-size: var(--text-base);
+	}
+
+	.profile-links a {
+		color: var(--color-text-muted);
+		transition: color var(--transition-base);
+	}
+
+	.profile-links a:hover {
+		color: var(--color-text);
+	}
+
+	/* Section */
+	.section {
+		margin-bottom: var(--space-30);
+	}
+
+	/* Filter */
+	.filter {
+		margin-bottom: var(--space-10);
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-5);
+		font-size: var(--text-base);
+	}
+
+	.filter-item {
+		padding: var(--space-1) 0;
+		transition: opacity var(--transition-base);
+		background: none;
+		border: none;
+		font-size: inherit;
+		opacity: 0.45;
+	}
+
+	.filter-item:hover {
+		opacity: 0.75;
+	}
+
+	.filter-item.active {
+		opacity: 1;
+	}
+
+	.filter-item[data-category="all"] {
+		color: var(--color-text-secondary);
+	}
+	.filter-item[data-category="chrome-extension"] {
+		color: var(--color-chrome-extension);
+	}
+	.filter-item[data-category="web-service"] {
+		color: var(--color-web-service);
+	}
+	.filter-item[data-category="desktop-app"] {
+		color: var(--color-desktop-app);
+	}
+	.filter-item[data-category="mobile-app"] {
+		color: var(--color-mobile-app);
+	}
+	.filter-item[data-category="website"] {
+		color: var(--color-website);
+	}
+
+	/* Timeline */
+	.timeline {
+		padding-left: 28px;
+	}
+
+	/* Writing List */
+	.writing-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+	}
+
+	/* About Link */
+	.about-link-section {
+		margin-bottom: var(--space-30);
+	}
+
+	.about-link {
+		display: inline-block;
+		font-size: var(--text-base);
+		color: var(--color-text-muted);
+		transition: color var(--transition-base);
+	}
+
+	.about-link:hover {
+		color: var(--color-text-secondary);
+	}
+
+	.about-link span {
+		color: var(--color-text-subtle);
+		margin: 0 var(--space-2);
+		transition: color var(--transition-base);
+	}
+
+	.about-link:hover span {
+		color: var(--color-text-muted);
+	}
+
+	/* Year Group */
+	.year-group {
+		margin-bottom: var(--space-10);
+	}
+
+	.year-group:last-child {
+		margin-bottom: 0;
+	}
+
+	.year-label {
+		font-size: var(--text-xl);
+		font-weight: 600;
+		color: var(--color-text-primary);
+		margin-bottom: var(--space-6);
+		margin-left: -28px;
+	}
+
+	/* Responsive */
+	@media (max-width: 640px) {
+		.profile {
+			margin-bottom: var(--space-20);
+		}
+
+		.profile-name {
+			font-size: var(--text-3xl);
+		}
+
+		.section {
+			margin-bottom: var(--space-20);
+		}
+
+		.about-link-section {
+			margin-bottom: var(--space-20);
+		}
+	}
+</style>
+
+<script>
+	function initFilter() {
+		const filterItems = document.querySelectorAll(".filter-item");
+		const timelineItems = document.querySelectorAll(".timeline-item");
+
+		filterItems.forEach((item) => {
+			item.addEventListener("click", () => {
+				filterItems.forEach((i) => i.classList.remove("active"));
+				item.classList.add("active");
+
+				const category = item.dataset.category;
+
+				timelineItems.forEach((work) => {
+					if (
+						category === "all" ||
+						work.dataset.category === category
+					) {
+						work.style.display = "block";
+					} else {
+						work.style.display = "none";
+					}
+				});
+			});
+		});
+	}
+
+	// 初回読み込み時
+	initFilter();
+
+	// View Transitions後の再初期化
+	document.addEventListener("astro:after-swap", initFilter);
+</script>

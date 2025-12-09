@@ -1,0 +1,68 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+import { siteConfig } from "../config.js";
+
+const { title, description } = Astro.props;
+
+const pageTitle = title ? `${title} · ${siteConfig.name}` : siteConfig.name;
+const pageDescription = description;
+const currentPath = Astro.url.pathname;
+const canonicalUrl = `${siteConfig.url}${currentPath}`;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts with display=swap -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Noto+Sans+JP:wght@400;500;600&family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Primary Meta Tags -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    {pageDescription && <meta name="description" content={pageDescription} />}
+    <meta name="author" content={siteConfig.author} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta
+      property="og:type"
+      content={currentPath === "/" ? "website" : "article"}
+    />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    {pageDescription && <meta property="og:description" content={pageDescription} />}
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:image" content={`${siteConfig.url}/ogp.png`} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content={siteConfig.twitterHandle} />
+    <meta name="twitter:creator" content={siteConfig.twitterHandle} />
+    <meta name="twitter:title" content={pageTitle} />
+    {pageDescription && <meta name="twitter:description" content={pageDescription} />}
+    <meta name="twitter:image" content={`${siteConfig.url}/ogp.png`} />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/icon.png" type="image/png" />
+
+    <!-- Client Router (View Transitions) -->
+    <ClientRouter />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

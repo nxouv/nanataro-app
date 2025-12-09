@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BackLink from '../../components/BackLink.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { formatDate, getCategoryLabel, getLinkText } from '../../utils/utils.js';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+const label = getCategoryLabel(project.data.category);
+---
+
+<BaseLayout title={project.data.title} description={project.data.description}>
+  <main class="container">
+    
+    <BackLink href="/" label="ホーム" />
+
+    <header class="project-header">
+      <div class={`project-category project-category--${project.data.category}`}>{label}</div>
+      <h1 class="project-title">{project.data.title}</h1>
+      <div class="project-date">{formatDate(project.data.date)}</div>
+    </header>
+
+    {project.data.url && (
+      <a href={project.data.url} class="project-link" target="_blank" rel="noopener noreferrer">
+        {getLinkText(project.data.url, project.data.category)}
+        <span class="project-link-icon">↗</span>
+      </a>
+    )}
+
+    <div class="project-content">
+      <section class="project-section">
+        <h2 class="project-section-title">概要</h2>
+        <div class="project-section-content">
+          <p>{project.data.description}</p>
+        </div>
+      </section>
+
+      <section class="project-section">
+        <h2 class="project-section-title">作った背景</h2>
+        <div class="article-content">
+          <Content />
+        </div>
+      </section>
+    </div>
+
+    <Footer />
+
+  </main>
+</BaseLayout>
+
+<style>
+  /* Project Header */
+  .project-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .project-category {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    margin-bottom: var(--space-3);
+  }
+
+  .project-category--chrome-extension { color: var(--color-chrome-extension); }
+  .project-category--web-service { color: var(--color-web-service); }
+  .project-category--desktop-app { color: var(--color-desktop-app); }
+  .project-category--mobile-app { color: var(--color-mobile-app); }
+  .project-category--website { color: var(--color-website); }
+
+  .project-title {
+    font-size: var(--text-4xl);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+  }
+
+  .project-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  /* Project Link */
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-base);
+    color: var(--color-link);
+    margin-bottom: var(--space-12);
+    transition: opacity var(--transition-base);
+  }
+
+  .project-link:hover {
+    opacity: 0.7;
+  }
+
+  .project-link-icon {
+    font-size: var(--text-base);
+  }
+
+  /* Project Content */
+  .project-content {
+    margin-bottom: var(--space-16);
+  }
+
+  .project-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .project-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .project-section-title {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-4);
+  }
+
+  .project-section-content {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .project-section-content p {
+    margin-bottom: var(--space-4);
+  }
+
+  .project-section-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .project-title {
+      font-size: var(--text-3xl);
+    }
+
+    .project-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .project-link {
+      margin-bottom: var(--space-10);
+    }
+  }
+</style>

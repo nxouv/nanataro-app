@@ -1,0 +1,34 @@
+---
+import { formatDate } from '../utils/utils.js';
+
+const { title, date, slug } = Astro.props;
+---
+
+<a href={`/writing/${slug}`} class="writing-item">
+  <h3 class="writing-item-title">{title}</h3>
+  <div class="writing-item-date">{formatDate(date)}</div>
+</a>
+
+<style>
+  .writing-item {
+    display: block;
+    transition: opacity var(--transition-base);
+  }
+
+  .writing-item:hover {
+    opacity: 0.6;
+  }
+
+  .writing-item-title {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+    line-height: var(--leading-tight);
+  }
+
+  .writing-item-date {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+</style>
