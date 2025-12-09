@@ -3,7 +3,7 @@ title: "よむんだもん"
 description: "ネットの文章をVOICEVOX/COEIROINKの声で聴ける拡張機能"
 category: "chrome-extension"
 date: "2025-11-26"
-url: "https://chromewebstore.google.com/detail/saved-it-download-x-image/aeeecakmepfkhamjecnkbgojnhlihkhm"
+url: "https://chromewebstore.google.com/detail/%E3%82%88%E3%82%80%E3%82%93%E3%81%A0%E3%82%82%E3%82%93/fananhbebhmfnplkhiahecddmjmkabgg"
 ---
 
 何かツールを作ってみたいと思い、僕が最初に思いついたのがこの拡張機能です
