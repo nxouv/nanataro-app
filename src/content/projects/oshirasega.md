@@ -6,4 +6,4 @@ date: "2025-12-16"
 url: "https://oshirasega.nanataro.app"
 ---
 
-準備中
+...
