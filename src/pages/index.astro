@@ -244,6 +244,9 @@ const sortedWritings = writings
 	.filter-item[data-category="website"] {
 		color: var(--color-website);
 	}
+	.filter-item[data-category="other"] {
+		color: var(--color-other);
+	}
 
 	/* Timeline */
 	.timeline {
@@ -322,10 +325,12 @@ const sortedWritings = writings
 
 <script>
 	function initFilter() {
-	const filterItems = document.querySelectorAll<HTMLElement>(".filter-item");
-	const timelineItems = document.querySelectorAll<HTMLElement>(".timeline-item");
+		const filterItems =
+			document.querySelectorAll<HTMLElement>(".filter-item");
+		const timelineItems =
+			document.querySelectorAll<HTMLElement>(".timeline-item");
 
-	filterItems.forEach((item) => {
+		filterItems.forEach((item) => {
 			item.addEventListener("click", () => {
 				filterItems.forEach((i) => i.classList.remove("active"));
 				item.classList.add("active");

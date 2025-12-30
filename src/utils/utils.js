@@ -19,7 +19,8 @@ export function getCategoryLabel(category) {
     "web-service": "Webサービス",
     "desktop-app": "デスクトップアプリ",
     "mobile-app": "モバイルアプリ",
-    website: "Webサイト",
+    "website": "Webサイト",
+    "other": "その他",
   };
   return labels[category] || category;
 }

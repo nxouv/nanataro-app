@@ -11,6 +11,7 @@ const projects = defineCollection({
       "desktop-app",
       "mobile-app",
       "website",
+      "other",
     ]),
     date: z.string(),
     url: z.string().optional(),
